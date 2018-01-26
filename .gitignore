@@ -29,7 +29,7 @@ config.status
 config.sub
 configure
 config-util.h
-config-util.h.in
+config-util.h.in*
 contrib
 core_compress_test
 depcomp
