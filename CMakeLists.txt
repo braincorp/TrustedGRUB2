@@ -7,7 +7,7 @@ ExternalProject_Add(
   grub-tpm
   SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/
   CONFIGURE_COMMAND ./autogen.sh COMMAND ./configure --prefix=/usr/local --enable-device-mapper
-  BUILD_COMMAND $(MAKE) CPPFLAGS=-DTGRUB_DEBUG COMMAND echo 'done'
+  BUILD_COMMAND $(MAKE) COMMAND echo 'done'
   INSTALL_COMMAND $(MAKE) DESTDIR=${CMAKE_CURRENT_BINARY_DIR}/grub-tpm install
   BUILD_IN_SOURCE 1
 )
