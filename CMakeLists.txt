@@ -1,8 +1,9 @@
 project(grub-tpm)
 cmake_minimum_required (VERSION 3.5)
 
-include(ExternalProject)
-
+# TPM debugging is really useful, so we have a flag for it
+# When this is enabled, the system takes forever to boot, but you can
+# see each PCR change and resulting hash as the system is checked
 option(GRUBTPM_DEBUG off)
 
 if(GRUBTPM_DEBUG) 
@@ -11,18 +12,33 @@ else()
   set(GRUBTPM_OPTIONS "")
 endif()
 
-ExternalProject_Add(
+# first generate ./configure for autotools
+add_custom_command(
+  OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/configure
+  WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+  COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/autogen.sh 
+)
+
+# generate our output
+add_custom_command(
+  OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/.stamp
+  DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/configure
+  WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+  COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/configure --prefix=/usr/local --enable-device-mapper
+  COMMAND $(MAKE) ${GRUBTPM_OPTIONS} 
+  COMMAND $(MAKE) DESTDIR=${CMAKE_CURRENT_BINARY_DIR}/pkg install
+  COMMAND touch ${CMAKE_CURRENT_BINARY_DIR}/.stamp
+)
+
+# create a nice target
+add_custom_target(
   grub-tpm
-  SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/
-  CONFIGURE_COMMAND ./autogen.sh COMMAND ./configure --prefix=/usr/local --enable-device-mapper
-  BUILD_COMMAND $(MAKE) ${GRUBTPM_OPTIONS} COMMAND echo 'done'
-  INSTALL_COMMAND $(MAKE) DESTDIR=${CMAKE_CURRENT_BINARY_DIR}/grub-tpm install
-  BUILD_IN_SOURCE 1
+  DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/.stamp
 )
 
 add_custom_target(
   grub-tpm.clean
-  COMMAND rm -rf ${CMAKE_CURRENT_BINARY_DIR} || $(MAKE) -C ${CMAKE_CURRENT_SOURCE_DIR} distclean
+  COMMAND rm -rf ${CMAKE_CURRENT_BINARY_DIR}
 )
 
-install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/grub-tpm/ DESTINATION / USE_SOURCE_PERMISSIONS COMPONENT boot)
+install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/pkg/ DESTINATION / USE_SOURCE_PERMISSIONS COMPONENT boot)
