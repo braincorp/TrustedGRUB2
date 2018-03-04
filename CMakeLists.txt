@@ -26,6 +26,7 @@ add_custom_command(
   WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
   COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/configure --prefix=/usr/local --enable-device-mapper
   COMMAND $(MAKE) ${GRUBTPM_OPTIONS} 
+  COMMAND mkdir -p ${CMAKE_CURRENT_BINARY_DIR}/pkg
   COMMAND $(MAKE) DESTDIR=${CMAKE_CURRENT_BINARY_DIR}/pkg install
   COMMAND touch ${CMAKE_CURRENT_BINARY_DIR}/.stamp
 )
