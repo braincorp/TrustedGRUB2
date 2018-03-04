@@ -33,7 +33,7 @@ add_custom_command(
 
 # create a nice target
 add_custom_target(
-  grub-tpm
+  grub-tpm ALL
   DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/.stamp
 )
 
