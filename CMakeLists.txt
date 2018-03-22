@@ -8,6 +8,7 @@ option(GRUBTPM_DEBUG off)
 
 if(GRUBTPM_DEBUG) 
   set(GRUBTPM_OPTIONS "CPPFLAGS=-DTGRUB_DEBUG")
+  message("building GRUB2 with debug...")
 else()
   set(GRUBTPM_OPTIONS "")
 endif()
