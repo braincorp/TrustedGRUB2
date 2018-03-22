@@ -344,7 +344,7 @@ static grub_err_t luks_recover_key(grub_disk_t source, grub_cryptodisk_t dev) {
 
 #endif
 
-	grub_puts_(N_("Attempting to decrypt master key..."));
+	//grub_puts_(N_("Attempting to decrypt master key..."));
 	keysize = grub_be_to_cpu32(header.keyBytes);
   if (keysize > GRUB_CRYPTODISK_MAX_KEYLEN)
     grub_fatal("luks_recover_key failed: key is too long");
