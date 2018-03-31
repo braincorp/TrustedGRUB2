@@ -155,7 +155,7 @@ real_start:
 	pushw	%dx
 
 	/* print a notification message on the screen */
-	MSG(notification_string)
+	//MSG(notification_string)
 
 	/* set %si to the disk address packet */
 	movw	$disk_address_packet, %si
