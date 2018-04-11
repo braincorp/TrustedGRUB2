@@ -412,9 +412,9 @@ LOCAL(general_error):
 /* go here when you need to stop the machine hard after an error condition */
 LOCAL(stop):	jmp	LOCAL(stop)
 
-notification_string:	.asciz "loading"
-
-notification_step:	.asciz "."
+/* BRAIN replaced loading with spaces.... */
+notification_string:	.asciz "       "
+notification_step:	.asciz " "
 notification_done:	.asciz "\r\n"
 
 geometry_error_string:	.asciz "Geom"
