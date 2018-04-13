@@ -443,7 +443,7 @@ static grub_err_t luks_recover_key(grub_disk_t source, grub_cryptodisk_t dev) {
 		if (grub_be_to_cpu32 (header.keyblock[i].active) != LUKS_KEY_ENABLED)
 			continue;
 
-		grub_dprintf("luks", "Trying keyslot %d\n", i);
+		//grub_dprintf("luks", "Trying keyslot %d\n", i);
 
 		/* Calculate the PBKDF2 of the user supplied passphrase / keyfile.  */
 		gcry_err = grub_crypto_pbkdf2(dev->hash, (grub_uint8_t *) secret,
@@ -466,7 +466,7 @@ static grub_err_t luks_recover_key(grub_disk_t source, grub_cryptodisk_t dev) {
 			//return grub_crypto_gcry_error(gcry_err);
 		}
 
-		grub_dprintf("luks", "PBKDF2 done\n");
+		//grub_dprintf("luks", "PBKDF2 done\n");
 
 		gcry_err = grub_cryptodisk_setkey(dev, digest, keysize);
 		if (gcry_err) {
@@ -535,7 +535,7 @@ static grub_err_t luks_recover_key(grub_disk_t source, grub_cryptodisk_t dev) {
 			//return grub_crypto_gcry_error(gcry_err);
 		}
 
-		grub_dprintf("luks", "candidate key recovered\n");
+		//grub_dprintf("luks", "candidate key recovered\n");
 
 		/* Calculate the PBKDF2 of the candidate master key.  */
 		gcry_err = grub_crypto_pbkdf2(dev->hash, candidate_key,
@@ -567,7 +567,7 @@ static grub_err_t luks_recover_key(grub_disk_t source, grub_cryptodisk_t dev) {
 
 		/* TRANSLATORS: It's a cryptographic key slot: one element of an array
 		 where each element is either empty or holds a key.  */
-		grub_printf_(N_("Slot %d opened\n"), i);
+		//grub_printf_(N_("Slot %d opened\n"), i);
 
 		/* Set the master key.  */
 		gcry_err = grub_cryptodisk_setkey(dev, candidate_key, keysize);
