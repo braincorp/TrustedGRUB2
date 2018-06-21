@@ -44,9 +44,9 @@ add_custom_target(
 )
 
 install(
-  COMPONENT boot
   DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/pkg/
   DESTINATION /
+  COMPONENT boot
   USE_SOURCE_PERMISSIONS)
 add_package_content(
   boot
