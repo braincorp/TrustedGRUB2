@@ -43,13 +43,4 @@ add_custom_target(
   COMMAND rm -rf ${CMAKE_CURRENT_BINARY_DIR}
 )
 
-install(
-  DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/pkg/
-  DESTINATION /
-  COMPONENT boot
-  USE_SOURCE_PERMISSIONS)
-add_package_content(
-  boot
-  DIRECTORIES ${CMAKE_CURRENT_BINARY_DIR}/pkg/
-  DESTINATION /)
-add_package_build_dependencies(boot grub-tpm)
+install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/pkg/ DESTINATION / USE_SOURCE_PERMISSIONS COMPONENT boot)
